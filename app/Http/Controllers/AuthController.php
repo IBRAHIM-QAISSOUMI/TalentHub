@@ -11,11 +11,14 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
+    // show form register 
     public function showFormRegister(){
         return view("auth.register");
     }
 
 
+
+    // register function 
     public function register(Request $request) {
         $request->validate([
             'name' => 'required|string|min:8|max:50',
@@ -34,8 +37,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return view('home');
-
+        return redirect()->route('home');
         // if($request->role == 'candidate') {
         //     $user->assignRole($request->role);
         //     CandidateProfile::create([
@@ -50,5 +52,46 @@ class AuthController extends Controller
         //     ]);
         // }
         
+    }
+
+
+    // show form login 
+    public function showFormLogin(){
+        return view('auth.login');
+    }
+
+
+    // login function 
+    public function login(Request $request) {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        // remember me
+        $remember = $request->has('remember');
+
+        if(Auth::attempt($credentials, $remember))
+        {
+            $request->session()->regenerate();
+            return redirect()->route('home');
+        }
+
+        return back()->withErrors([
+        'email' => 'email or password is incorrect'
+    ]);
+    }
+
+
+    // logout function 
+    public function logout(Request $request) 
+    {
+        Auth::logout();
+
+        $request->session->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
     }
 }
