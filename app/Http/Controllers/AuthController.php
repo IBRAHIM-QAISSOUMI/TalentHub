@@ -35,9 +35,6 @@ class AuthController extends Controller
 
         $user->assignRole($request->role);
 
-        Auth::login($user);
-
-        return redirect()->route('home');
         // if($request->role == 'candidate') {
         //     $user->assignRole($request->role);
         //     CandidateProfile::create([
@@ -52,6 +49,11 @@ class AuthController extends Controller
         //     ]);
         // }
         
+
+        Auth::login($user);
+
+
+        return redirect()->route('home');
     }
 
 
@@ -74,7 +76,19 @@ class AuthController extends Controller
         if(Auth::attempt($credentials, $remember))
         {
             $request->session()->regenerate();
-            return redirect()->route('home');
+
+            if(Auth::user()->hasRole('candidate'))
+                {
+                    return redirect('candidate/dashboard');
+                };
+            if(Auth::user()->hasRole('recruiter'))
+                {
+                    return redirect('recruiter/dashboard');
+                }
+            if(Auth::user()->hasRole('admin'))
+                {
+                    return redirect('admin/dashboard');
+                };
         }
 
         return back()->withErrors([
@@ -88,7 +102,7 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        $request->session->invalidate();
+        $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
