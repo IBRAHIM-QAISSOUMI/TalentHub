@@ -18,9 +18,11 @@ return new class extends Migration
                   ->onDelete('cascade')->unique();
 
             $table->string('name')->default('guest');
-            $table->string('logo')->nullable();
             $table->text('description')->nullable();
-            $table->string('location')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('country')->nullable();
+            $table->string('city')->nullable();
+            $table->boolean('is_completed')->default(false);
             $table->timestamps();
         });
     }

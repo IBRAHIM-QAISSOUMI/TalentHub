@@ -18,8 +18,14 @@ return new class extends Migration
                   ->onDelete('cascade')
                   ->unique();
 
-            $table->string('title');
+            $table->string('title')->nullable();
             $table->text('bio')->nullable();
+            $table->string('avatar')->nullable();
+            $table->string('slug')->nullable();
+            $table->string('country')->nullable();
+            $table->string('city')->nullable();
+            $table->string('cv')->nullable();
+            $table->boolean('is_completed')->default(false);
             $table->timestamps();
         });
     }

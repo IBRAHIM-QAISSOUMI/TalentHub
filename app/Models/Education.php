@@ -7,6 +7,8 @@ use App\Models\CandidateProfile;
 
 class Education extends Model
 {
+    protected $table = 'educations';
+
     protected $fillable = [
         'candidate_profile_id',
         'degree',

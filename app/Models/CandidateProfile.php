@@ -13,7 +13,13 @@ class CandidateProfile extends Model
     protected $fillable = [
         'user_id',
         'title',
-        'bio'
+        'bio',
+        'avatar',
+        'slug',
+        'city',
+        'country',
+        'cv',
+        'is_completed'
     ];
 
 

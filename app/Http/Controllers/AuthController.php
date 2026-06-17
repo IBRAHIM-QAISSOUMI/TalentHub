@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\CandidateProfile;
+use App\Models\Company;
 
 
 
@@ -33,27 +35,30 @@ class AuthController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
-        $user->assignRole($request->role);
+        if($request->role == 'candidate') {
+            $user->assignRole($request->role);
 
-        // if($request->role == 'candidate') {
-        //     $user->assignRole($request->role);
-        //     CandidateProfile::create([
-        //         'user_id' => $user->id
-        //     ]);
-        // }
+            Auth::login($user);
 
-        // if($request->role == 'recruiter') {
-        //     $user->assignRole($request->role);
-        //     CompanyProfile::create([
-        //         'user_id' => $user->id
-        //     ]);
-        // }
-        
+            CandidateProfile::create([
+                'user_id' => $user->id
+            ]);
 
-        Auth::login($user);
+            return redirect()->route('candidate.edit');
+        }
 
+        if($request->role == 'recruiter') {
+            $user->assignRole($request->role);
 
-        return redirect()->route('home');
+            Auth::login($user);
+            
+            Company::create([
+                'user_id' => $user->id
+            ]);
+
+            return redirect()->route('recruiter.edit');
+        }
+
     }
 
 
@@ -79,10 +84,22 @@ class AuthController extends Controller
 
             if(Auth::user()->hasRole('candidate'))
                 {
-                    return redirect('candidate/dashboard');
+                    if (Auth::user()->hasRole('candidate')) {
+
+                    if (!Auth::user()->candidateProfile->is_completed) {
+
+                        return redirect('/candidate/profile/edit');
+                    }
+                    return redirect('/candidate/dashboard');
+                }
                 };
+
             if(Auth::user()->hasRole('recruiter'))
                 {
+                    if(!Auth::user()->Company->is_completed) {
+                        return redirect('/company/profile/edit');
+                    }
+                    
                     return redirect('recruiter/dashboard');
                 }
             if(Auth::user()->hasRole('admin'))
