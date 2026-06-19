@@ -18,7 +18,7 @@
                <!-- avatar -->
                   <div class="flex items-end gap-3">
                       <div class="h-20 w-20 rounded-full border-4 border-white shadow-s overflow-hidden">
-                          <img src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=dbeafe&color=2563eb' }}" 
+                          <img src="{{ auth()->user()->candidateProfile->avatar ? asset('storage/' . auth()->user()->candidateProfile->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=dbeafe&color=2563eb' }}" 
                                alt=""
                                class="w-full h-full object-cover"
                           >
@@ -67,6 +67,7 @@
                        <input type="file"
                               name="avatar"
                               accept="image/*"
+                              value="{{ old('avatar', auth()->user()->name) }}"
                               class="block w-full text-sm text-gray-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
                     </div>
 
@@ -128,10 +129,9 @@
                         </label>
                         <textarea name="bio"
                                   rows="3"
-                                  value="{{ old('bio', $candidateProfile->bio ?? '') }}"
                                   placeholder="Write a short bio about yourself..."
                                   class="w-full border border-gray-100 bg-gray-50 rounded-xl shadow-sm text-sm px-3 py-2.5 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition resize-none"
-                        ></textarea>
+                        >{{ old('bio', $candidateProfile?->bio ?? '') }}</textarea>
                     </div>
 
                     <!-- skills -->
@@ -141,8 +141,8 @@
                         </label>
 
                         <select id="skillsSelect"
-                                class="w-full border border-gray-100 bg-gray-50 rounded-xl shadow-sm text-sm px-3 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition">
-
+                                class="w-full border border-gray-100 bg-gray-50 rounded-xl shadow-sm text-sm px-3 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition"
+                                >
                             @foreach($skills as $skill)
                                 <option value="{{ $skill->id }}">
                                     {{ $skill->name }}
@@ -164,7 +164,16 @@
                         const select = document.getElementById('skillsSelect');
                         const container = document.getElementById('selectedSkills');
 
-                        let selected = [];
+                        let selected = @json(
+                            $candidateProfile?->skills->map(function($skill){
+                                return [
+                                    'id' => $skill->id,
+                                    'name' => $skill->name
+                                ];
+                            }) ?? []
+                        );
+
+                        render()
 
                         select.addEventListener('change', function(){
 
@@ -319,9 +328,12 @@
                     <input type="file"
                            name="cv"
                            accept=".pdf"
+                           value="{{old('cv', $profile->cv ?? '') }}"
                            class="block w-full text-sm text-gray-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer"
                            >
                  </div>
+
+                 
 
                 <!-- SAVE BUTTON -->
                 <div class="pt-2">
