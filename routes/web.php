@@ -19,20 +19,33 @@ Route::get('/home', function(){
 
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:candidate'])
+    ->prefix('candidate')
+    ->group(function () {
 
-    Route::get('/candidate/profile/edit', [CandidateProfileController::class, 'edit'])->name('candidate.edit');
-    Route::put('/candidate/profile/update', [CandidateProfileController::class, 'update'])->name('candidate.update');
-    Route::get('/candidate/profile', [CandidateProfileController::class, 'show'])->name('candidate.show');
+    Route::get('/profile/edit', [CandidateProfileController::class, 'edit'])
+        ->name('candidate.edit');
 
-    // Route::get('/candidate/dashboard', [CandidateDashboardController::class, 'index']);
+    Route::put('/profile/update', [CandidateProfileController::class, 'update'])
+        ->name('candidate.update');
+
+    Route::get('/profile/{id?}', [CandidateProfileController::class, 'show'])
+        ->name('candidate.show');
+
 });
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:recruiter'])
+    ->prefix('recruiter')
+    ->group(function () {
 
-    Route::get('/recruiter/profile/edit', [CompanyProfileController::class, 'edit']);
-    Route::post('/recruiter/profile', [CompanyProfileController::class, 'update']);
+    Route::get('/profile/edit', [CompanyProfileController::class, 'edit'])
+        ->name('recruiter.edit');
 
-    // Route::get('/recruiter/dashboard', [RecruiterDashboardController::class, 'index']);
+    Route::post('/profile', [CompanyProfileController::class, 'update'])
+        ->name('recruiter.update');
+
 });
+
+
+// Route::get('/recruiter/dashboard', [RecruiterDashboardController::class, 'index']);
