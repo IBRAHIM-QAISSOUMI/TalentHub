@@ -143,6 +143,8 @@ class CandidateProfileController extends Controller
             ->firstOrFail();
         }
 
-        return view('profile.candidate.show', compact('profile'));
+        $users = User::with('candidateProfile')->take(10)->get();
+
+        return view('profile.candidate.show', compact('profile', 'users'));
     }
 }
