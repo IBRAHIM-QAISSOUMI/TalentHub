@@ -36,9 +36,10 @@
             <!-- User -->
             <div class="flex items-center gap-4">
 
-                <span class="hidden sm:block text-gray-600">
+                <a  href="{{route('candidate.show', auth()->user()->id)}}"
+                    class="hidden sm:block text-gray-600">
                     {{ Auth::user()->name }}
-                </span>
+                </a>
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

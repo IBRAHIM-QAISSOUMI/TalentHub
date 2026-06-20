@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('degree');
             $table->string('school');
             $table->integer('start_year');
-            $table->integer('end_year');
+            $table->integer('end_year')->nullable();
             $table->timestamps();
         });
     }
