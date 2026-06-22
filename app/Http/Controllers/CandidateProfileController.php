@@ -17,6 +17,8 @@ class CandidateProfileController extends Controller
     }
 
 
+
+    // ====================================================
     public function update(Request $request) {
         $request->validate([
 
@@ -127,7 +129,7 @@ class CandidateProfileController extends Controller
 
 
 
-    
+    // ==========================================================================
     public function show(Request $request) {
 
         $id = $request->id;

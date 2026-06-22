@@ -12,8 +12,13 @@ class Company extends Model
         'user_id',
         'name',
         'logo',
+        'industry',
+        'size',
+        'website', 
+        'country', 
+        'city', 
         'description',
-        'location'
+        'is_completed',
     ];
 
     // relation one to one with user model 
