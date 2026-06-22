@@ -13,7 +13,9 @@ class JobOffer extends Model
         'company_id',
         'title',
         'description',
+        'location',
         'contract_type',
+        'work_mode',
         'image',
         'is_closed'
     ];
