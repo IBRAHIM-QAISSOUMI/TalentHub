@@ -34,6 +34,10 @@ Route::middleware(['auth', 'role:candidate'])
 
 });
 
+Route::get('candidate/profile/{id?}', [CandidateProfileController::class, 'show'])
+        ->name('candidate.show')->middleware('auth');
+
+
 
 Route::middleware(['auth', 'role:recruiter'])
     ->prefix('company')
@@ -45,7 +49,7 @@ Route::middleware(['auth', 'role:recruiter'])
     Route::put('/profile/update', [CompanyProfileController::class, 'update'])
         ->name('company.update');
 
-    Route::put('/profile/{id?}', [CompanyProfileController::class, 'show'])
+    Route::get('/profile/{id?}', [CompanyProfileController::class, 'show'])
         ->name('company.show');
 
 });

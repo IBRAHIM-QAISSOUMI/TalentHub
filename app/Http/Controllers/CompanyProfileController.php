@@ -9,7 +9,7 @@ class CompanyProfileController extends Controller
 {
     public function edit() {
         $company = auth()->user()->company;
-        return view('profile.recruiter.edit', compact('company'));
+        return view('profile.company.edit', compact('company'));
     }
 
 
@@ -69,8 +69,11 @@ class CompanyProfileController extends Controller
 
     // ===========================================================
 
-    public function show() {
+    public function show(Request $request) {
 
-        
+        $id = $request->id;
+        $company = auth()->user()->company()->with('jobOffers')->firstOrfail();
+
+        return view('profile.company.show', compact('company'));
     }
 }
