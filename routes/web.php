@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CandidateProfileController;
 use App\Http\Controllers\CompanyProfileController;
+use App\Http\Controllers\JobController;
 
 Route::get('/', [AuthController::class , "showFormRegister"]);
 Route::post('/', [AuthController::class , "register"])->name('register');
@@ -18,7 +19,7 @@ Route::get('/home', function(){
 })->middleware('auth')->name('home');
 
 
-
+// candidate
 Route::middleware(['auth', 'role:candidate'])
     ->prefix('candidate')
     ->group(function () {
@@ -28,10 +29,6 @@ Route::middleware(['auth', 'role:candidate'])
 
     Route::put('/profile/update', [CandidateProfileController::class, 'update'])
         ->name('candidate.update');
-
-    Route::get('/profile/{id?}', [CandidateProfileController::class, 'show'])
-        ->name('candidate.show');
-
 });
 
 Route::get('candidate/profile/{id?}', [CandidateProfileController::class, 'show'])
@@ -39,6 +36,7 @@ Route::get('candidate/profile/{id?}', [CandidateProfileController::class, 'show'
 
 
 
+// company
 Route::middleware(['auth', 'role:recruiter'])
     ->prefix('company')
     ->group(function () {
@@ -48,11 +46,17 @@ Route::middleware(['auth', 'role:recruiter'])
 
     Route::put('/profile/update', [CompanyProfileController::class, 'update'])
         ->name('company.update');
-
-    Route::get('/profile/{id?}', [CompanyProfileController::class, 'show'])
-        ->name('company.show');
-
 });
+
+Route::get('company/profile/{id?}', [CompanyProfileController::class, 'show'])
+    ->name('company.show')->middleware('auth');
+
+
+
+// Jobs
+Route::resource('company/jobs', JobController::class)->middleware('auth');
+
+
 
 
 // Route::get('/recruiter/dashboard', [RecruiterDashboardController::class, 'index']);

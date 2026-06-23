@@ -58,6 +58,7 @@ class CompanyProfileController extends Controller
             'country' => $request->country,
             'city' => $request->city,
             'description' => $request->description,
+            'is_completed' => true
         ]);
 
 
@@ -69,17 +70,12 @@ class CompanyProfileController extends Controller
 
     // ===========================================================
 
-<<<<<<< HEAD
     public function show(Request $request) {
 
         $id = $request->id;
         $company = auth()->user()->company()->with('jobOffers')->firstOrfail();
 
         return view('profile.company.show', compact('company'));
-=======
-    public function show() {
 
-        
->>>>>>> cd4f6271a7a449568d2870a5904436eedf3a024a
     }
 }
