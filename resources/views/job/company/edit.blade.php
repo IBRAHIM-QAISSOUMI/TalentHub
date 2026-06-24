@@ -5,7 +5,7 @@
 @section('content')
      <div class="py-8">
         <!-- main -->
-         <div class="h-screen max-w-3xl mx-auto px-4 space-y-6">
+         <div class="h-fit max-w-3xl mx-auto px-4 space-y-6">
             
             <div class="flex items-center gap-3">
                 <a href="{{ url()->previous() }}">
@@ -13,15 +13,16 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                     </svg>
                 </a>
-                <h1 class="text-xl text-gray-800 font-semibold">Post a new job offer</h1>
+                <h1 class="text-xl text-gray-800 font-semibold">Edit job offer</h1>
             </div>
 
-            <form action="{{route('jobs.store')}}" 
+            <form action="{{route('jobs.update', $job->id)}}" 
                   method="post"
                   enctype="multipart/form-data" 
                   class="space-y-4">
 
             @csrf
+            @method('PUT')
             <!-- General Info -->
             <div class="bg-white border border-gray-200 rounded-lg px-6 py-5 space-y-3 ">
                 <h2 class="text-base text-gray-700">GENERAL INFO</h2>
@@ -32,7 +33,7 @@
                                name="title"
                                class="block w-full rounded-lg text-gray-700 border border-gray-200 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-transparent @error('title') border-red-400 @enderror"
                                placeholder="e.g. Frontend Developer"
-                               value="{{old('title')}}">
+                               value="{{old('title', $job->title ?? '')}}">
                         @error('title')
                         <span class="text-xs text-red-500">{{$message}}</span>
                         @enderror
@@ -45,7 +46,7 @@
                                name="location"
                                class="block w-full rounded-lg text-gray-700 border border-gray-200 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-transparent @error('location') border-red-400 @enderror"
                                placeholder="e.g. Casablanca"
-                               value="{{old('location')}}">
+                               value="{{old('location', $job->location ?? '')}}">
                         @error('location')
                         <span class="text-xs text-red-500">{{$message}}</span>
                         @enderror
@@ -57,9 +58,20 @@
                             <span class="text-red-700">*</span>
                             <select name="contract_type"
                                     class="block w-full rounded-lg text-gray-700 border border-gray-200 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-transparent  @error('contract_type')  border-red-400 @enderror">
-                                <option value="full-time">Full-time</option>
-                                <option value="part-time">Part-time</option>
-                                <option value="internship">Internship</option>
+                                    <option value="full-time"
+                                        {{ old('contract_type', $job->contract_type) == 'full-time' ? 'selected' : '' }}>
+                                        Full Time
+                                    </option>
+
+                                    <option value="part-time"
+                                        {{ old('contract_type', $job->contract_type) == 'part-time' ? 'selected' : '' }}>
+                                        Part Time
+                                    </option>
+
+                                    <option value="internship"
+                                        {{ old('contract_type', $job->contract_type) == 'internship' ? 'selected' : '' }}>
+                                        Internship
+                                    </option>
                             </select>
                             @error('contract_type')
                             <span class="text-xs text-red-500">{{$message}}</span>
@@ -70,9 +82,20 @@
                             <span class="text-red-700">*</span>
                             <select name="work_mode"
                                     class="block w-full rounded-lg text-gray-700 border border-gray-200 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-transparent @error('work_mode')  border-red-400 @enderror">
-                                <option value="remote">Remote</option>
-                                <option value="on-site">On-site</option>
-                                <option value="hybrid">Hybrid</option>
+                                    <option value="remote"
+                                        {{ old('work_mode', $job->work_mode) == 'remote' ? 'selected' : '' }}>
+                                        Remote
+                                    </option>
+
+                                    <option value="on-site"
+                                        {{ old('work_mode', $job->work_mode) == 'on-site' ? 'selected' : '' }}>
+                                        On Site
+                                    </option>
+
+                                    <option value="hybrid"
+                                        {{ old('work_mode', $job->work_mode) == 'hybrid' ? 'selected' : '' }}>
+                                        Hybrid
+                                    </option>
                             </select>
                             @error('work_mode')
                             <span class="text-xs text-red-500">{{$message}}</span>
@@ -94,7 +117,7 @@
                                    placeholder="Describe the role, responsibilities, and requirements..."
                                    value="{{old('description')}}"
                                    class="block w-full rounded-lg text-gray-700 border border-gray-200 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-transparent @error('description')  border-red-400 @enderror"
-                                   >{{old('description')}}</textarea>
+                                   >{{old('description', $job->description ?? '')}}</textarea>
                             @error('description')
                             <span class="text-xs text-red-500">{{$message}}</span>
                             @enderror
@@ -107,7 +130,10 @@
                  
                  <h2 class="inline text-base text-gray-700">Cover image</h2>
                  <span class="text-red-700">*</span>
-                 <div x-data="{ preview: null, dragging: false }">
+                 <div x-data='{
+                        preview: "{{ $job->image ? asset("storage/" . $job->image) : "" }}",
+                        dragging: false
+                    }'>
                     <label
                         for="image"
                         class="relative flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-xl cursor-pointer transition-all"
@@ -179,7 +205,6 @@
                 </div>
                 </div>
                 <!-- End Cover image -->
-                
                 <div class="flex items-center gap-3 justify-end">
                     <button type="reset"
                             class="text-sm px-3 py-2 rounded-lg tracking-wide border border-gray-300 bg-white text-gray-800 hover:bg-gray-50 transition">
@@ -187,7 +212,7 @@
                     </button>
                     <button type="submit"
                             class="text-sm px-3 py-2 rounded-lg tracking-wide bg-gray-900 text-white hover:bg-gray-800 transition">
-                            Publish offer
+                            Update offer
                     </button>
                 </div>
             </form>

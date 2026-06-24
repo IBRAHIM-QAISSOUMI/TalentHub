@@ -63,7 +63,7 @@ class CompanyProfileController extends Controller
 
 
         return redirect()->route('company.show');
-
+                                                                                        
     }
 
 
