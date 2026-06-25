@@ -73,7 +73,9 @@ class CompanyProfileController extends Controller
     public function show(Request $request) {
 
         $id = $request->id;
-        $company = auth()->user()->company()->with('jobOffers')->firstOrfail();
+        
+        $id ? $company = Company::findOrFail($id) :
+              $company = auth()->user()->company()->with('jobOffers')->firstOrfail();
 
         return view('profile.company.show', compact('company'));
 

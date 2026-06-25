@@ -57,6 +57,9 @@ Route::get('company/profile/{id?}', [CompanyProfileController::class, 'show'])
 Route::resource('company/jobs', JobController::class)->middleware('auth');
 
 
+Route::patch('company/jobs/{job}/toggle', [JobController::class, 'toggle'])->middleware('auth')->name('jobs.toggle');
+
+
 
 
 // Route::get('/recruiter/dashboard', [RecruiterDashboardController::class, 'index']);

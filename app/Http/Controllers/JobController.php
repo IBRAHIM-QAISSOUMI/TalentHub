@@ -4,15 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\JobOffer;
+use App\Models\Company;
 
 class JobController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $jobs = auth()->user()->company->jobOffers()->with('applications')->get();
+        $id =  $request->id;
+
+        $jobs = $id
+            ? Company::findOrFail($id)->jobOffers()->with('applications')->get() 
+            : auth()->user()->company->jobOffers()->with('applications')->get();
+        
         return view('job.company.index', compact('jobs'));
     }
 
@@ -21,6 +27,10 @@ class JobController extends Controller
      */
     public function create()
     {
+        if (!auth()->user()->company) {
+            abort(403);
+        }
+
         return view('job.company.create');
     }
 
@@ -72,7 +82,9 @@ class JobController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $job = JobOffer::findOrFail($id);
+
+        return view('job.company.show', compact('job'));
     }
 
     /**
@@ -81,6 +93,10 @@ class JobController extends Controller
     public function edit(string $id)
     {
         $job = JobOffer::findOrFail($id);
+
+        if (auth()->user()->id !== $job->company->user_id) {
+            abort(403);
+        }
         return view('job.company.edit', compact('job'));
     }
 
@@ -133,6 +149,23 @@ class JobController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $job = JobOffer::findOrFail($id);
+        
+        if (auth()->user()->id !== $job->company->user_id) {
+            abort(403);
+        }
+        $job->delete();
+
+        return redirect()->route('jobs.index')->with('success', 'Job deleted successfully');
+    }
+
+
+
+
+    // custom toggel function 
+    public function toggle(JobOffer $job)
+    {
+        $job->update(['is_closed' => !$job->is_closed]);
+        return back();
     }
 }
