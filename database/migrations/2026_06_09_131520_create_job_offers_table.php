@@ -19,14 +19,19 @@ return new class extends Migration
             
             $table->string('title');
             $table->text('description');
+            $table->string('location');
             $table->enum('contract_type', [
                 'full-time',
                 'part-time',
-                'remote',
                 'internship',
-                'freelance'
             ]);
             
+             $table->enum('work_mode', [
+                'remote',
+                'on-site',
+                'hybrid'
+
+             ]);
             $table->string('image');
             $table->boolean('is_closed')->default(false);
             $table->timestamps();

@@ -56,7 +56,7 @@ class AuthController extends Controller
                 'user_id' => $user->id
             ]);
 
-            return redirect()->route('recruiter.edit');
+            return redirect()->route('company.edit');
         }
 
     }
@@ -84,23 +84,20 @@ class AuthController extends Controller
 
             if(Auth::user()->hasRole('candidate'))
                 {
-                    if (Auth::user()->hasRole('candidate')) {
-
                     if (!Auth::user()->candidateProfile->is_completed) {
 
-                        return redirect('/candidate/profile/edit');
+                        return redirect()->route('candidate.edit');
                     }
-                    return redirect('/candidate/dashboard');
-                }
+                    return redirect()->route('candidate.show');
                 };
 
             if(Auth::user()->hasRole('recruiter'))
                 {
                     if(!Auth::user()->Company->is_completed) {
-                        return redirect('/company/profile/edit');
+                        return redirect()->route('company.edit');
                     }
                     
-                    return redirect('recruiter/dashboard');
+                    return redirect()->route('company.show');
                 }
             if(Auth::user()->hasRole('admin'))
                 {

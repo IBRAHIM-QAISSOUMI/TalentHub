@@ -17,11 +17,21 @@ return new class extends Migration
                   ->constrained()
                   ->onDelete('cascade')->unique();
 
-            $table->string('name')->default('guest');
-            $table->text('description')->nullable();
             $table->string('logo')->nullable();
+            $table->string('name')->nullable();
+            $table->string('industry')->nullable();
+            $table->enum('size', [
+                '1-10',
+                '11-50',
+                '51-200',
+                '201-500',
+                '501-1000',
+                '1000+',
+            ])->nullable();
+            $table->string('website')->nullable();
             $table->string('country')->nullable();
             $table->string('city')->nullable();
+            $table->text('description')->nullable();
             $table->boolean('is_completed')->default(false);
             $table->timestamps();
         });
