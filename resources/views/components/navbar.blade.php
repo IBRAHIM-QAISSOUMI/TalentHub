@@ -22,7 +22,7 @@
                     Profile
                 </a>
 
-                <a href="#"
+                <a href="{{route('Jobs-listings')}}"
                    class="text-gray-700 hover:text-blue-600 font-medium transition">
                     Jobs
                 </a>
