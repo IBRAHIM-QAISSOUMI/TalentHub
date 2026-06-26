@@ -11,7 +11,8 @@ class Application extends Model
     protected $fillable = [
         'user_id',
         'job_offer_id',
-        'status'
+        'status',
+        'cover_letter'
     ];
 
     

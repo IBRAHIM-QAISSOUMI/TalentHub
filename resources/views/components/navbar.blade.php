@@ -12,12 +12,12 @@
             <!-- Links -->
             <div class="hidden md:flex items-center gap-8">
 
-                <a href="/candidate"
+                <a href="/candidate/dashboard"
                    class="text-gray-700 hover:text-blue-600 font-medium transition">
                     Dashboard
                 </a>
 
-                <a href="/candidate/profile/edit"
+                <a href="/candidate/profile"
                    class="text-gray-700 hover:text-blue-600 font-medium transition">
                     Profile
                 </a>

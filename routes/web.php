@@ -6,6 +6,7 @@ use App\Http\Controllers\CandidateProfileController;
 use App\Http\Controllers\CompanyProfileController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobListings;
+use App\Http\Controllers\ApplicationController;
 
 Route::get('/', [AuthController::class , "showFormRegister"]);
 Route::post('/', [AuthController::class , "register"])->name('register');
@@ -63,5 +64,15 @@ Route::patch('jobs/{job}/toggle', [JobController::class, 'toggle'])->middleware(
 
 Route::get('/jobs-listings', [JobListings::class, 'index'])
        ->name('Jobs-listings')->middleware('auth');
+
+
+Route::get('/applications', [ApplicationController::class, 'index'])
+    ->name('application.index')->middleware('auth');
+
+Route::get('/application/create/{id}', [ApplicationController::class, 'create'])
+    ->name('application.create')->middleware(['auth', 'role:candidate']);
+
+Route::post('/application/store/{id}', [ApplicationController::class, 'store'])
+    ->name('application.store')->middleware(['auth', 'role:candidate']);
 
 // Route::get('/recruiter/dashboard', [RecruiterDashboardController::class, 'index']);
