@@ -5,7 +5,7 @@
 @section('content')
     <div class="py-8">
         <!-- main -->
-            <div class="h-screen max-w-3xl mx-auto px-4 space-y-6">
+            <div class="max-w-3xl mx-auto px-4 space-y-6">
             @if(session('error'))
                 <div class="bg-red-100 text-red-700 p-3 rounded-lg mb-4">
                     {{ session('error') }}

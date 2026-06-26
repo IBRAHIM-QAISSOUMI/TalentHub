@@ -10,7 +10,8 @@ class ApplicationController extends Controller
 {
 
     public function index () {
-
+        $applications = auth()->user()->applications()->latest()->get();
+        return view('applications.index', compact('applications'));
     }
 
     public function create(Request $request) {
@@ -44,5 +45,13 @@ class ApplicationController extends Controller
 
         return redirect()->route('applications.index')->with('success', 'Application submitted successfully.');
 
+    }
+
+
+    public function destroy(string $id) {
+
+        Application::destroy($id);
+
+        return redirect()->route('applications.index')->with('success', 'Application canceled successfully');
     }
 }

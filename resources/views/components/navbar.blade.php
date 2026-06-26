@@ -27,7 +27,7 @@
                     Jobs
                 </a>
 
-                <a href="#"
+                <a href="{{route('applications.index')}}"
                    class="text-gray-700 hover:text-blue-600 font-medium transition">
                     Applications
                 </a>
