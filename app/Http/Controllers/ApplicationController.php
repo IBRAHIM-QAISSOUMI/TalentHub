@@ -10,8 +10,31 @@ class ApplicationController extends Controller
 {
 
     public function index () {
-        $applications = auth()->user()->applications()->latest()->get();
-        return view('applications.index', compact('applications'));
+        
+        if(auth()->user()->hasRole('candidate')) {
+
+             $applications = auth()->user()->applications()->latest()->get();
+             return view('applications.index', compact('applications'));
+
+        } else {
+            
+            $jobs = auth()->user()->company->jobOffers()->with('applications.user')->get() ;
+            
+            $totalApplications = $jobs->sum(function ($job) {
+                return $job->applications->count();
+            });
+
+            $accepted = $jobs->sum(function ($job) {
+                return $job->applications->where('status', 'accepted')->count();
+            });
+
+            $pending = $jobs->sum(function ($job) {
+                return $job->applications->where('status', 'pending')->count();
+            });
+
+            return view('applications.index', compact('jobs', 'totalApplications', 'pending', 'accepted'));
+        } 
+
     }
 
     public function create(Request $request) {

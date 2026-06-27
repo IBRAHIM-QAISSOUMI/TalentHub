@@ -21,7 +21,7 @@
 
                         <!-- avatar -->
                         <div
-                            class="absolute -top-10 w-20 h-20 flex items-center justify-between bg-white border border-gray-200 shadow-md rounded-2xl ">
+                            class="absolute -top-10 w-20 h-20 flex items-center justify-between bg-white border border-gray-200 shadow-md rounded-2xl overflow-hidden">
                             @if ($company->logo)
                                 <img id="logo-preview" src="{{ asset('storage/' . $company->logo) }}" alt="Logo"
                                     class="w-full h-full object-cover">
