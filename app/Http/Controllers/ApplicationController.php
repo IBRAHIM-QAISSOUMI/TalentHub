@@ -59,6 +59,7 @@ class ApplicationController extends Controller
             return back()->with('error', 'You have already applied for this job.');
         }
 
+
         Application::create([
             'user_id' => $user_id,
             'job_offer_id' => $jobOffer_id,
@@ -77,4 +78,29 @@ class ApplicationController extends Controller
 
         return redirect()->route('applications.index')->with('success', 'Application canceled successfully');
     }
+
+
+    public function job_applications(string $id) {
+        
+        $job = JobOffer::with('applications.user')->findOrFail($id);
+
+        return view('applications.job-applications', compact('job'));
+    }
+
+
+    public function accept(Application $application) {
+
+        $application->update(['status' => 'accepted']);
+
+        return back()->with('success', 'Application accepted successfully.');
+    }
+
+    public function reject(Application $application) {
+
+        $application->update(['status' => 'rejected']);
+
+        return back()->with('success', 'Application rejected successfully.');
+    }
+    
 }
+

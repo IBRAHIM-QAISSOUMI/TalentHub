@@ -252,12 +252,12 @@
 
                 <!-- buttom card -->
                  <div class="bg-gary-50 px-6 py-4">
-                    <a href="#"
+                    <a href="{{route('job-applications', $job->id)}}"
                        class="flex items-center gap-1 text-sm text-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
                           <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                         </svg>
-                        View all {{$job->Applications->count()}} applications
+                        View all {{$job->Applications->count()}} applications 
                     </a>
                  </div>         
                 <!-- end buttom card -->

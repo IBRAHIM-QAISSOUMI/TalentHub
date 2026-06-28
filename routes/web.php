@@ -79,6 +79,15 @@ Route::post('/application/store/{id}', [ApplicationController::class, 'store'])
 Route::delete('/applications/delete/{id}', [ApplicationController::class, 'destroy'])
     ->name('applications.delete')->middleware(['auth', 'role:candidate']);
 
+Route::get('/job/{id}/applications', [ApplicationController::class, 'job_applications'])
+    ->name('job-applications')->middleware(['auth', 'role:recruiter']);
+
+Route::get('/applications/{id}', [ApplicationController::class, 'show'])
+    ->name('show')->middleware(['auth', 'role:recruiter']);
 
 
+
+Route::patch('applications/{application}/accept', [ApplicationController::class, 'accept'])->middleware('auth')->name('application.accept');
+
+Route::patch('applications/{application}/reject', [ApplicationController::class, 'reject'])->middleware('auth')->name('application.reject');
 // Route::get('/recruiter/dashboard', [RecruiterDashboardController::class, 'index']);
