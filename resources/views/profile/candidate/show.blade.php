@@ -190,7 +190,7 @@
                               <p class="text-xs text-gray-400"> 
                                  {{$edu->start_year}}
                                  -
-                                 {{ $edu->end_year}}
+                                 {{ $edu->end_year ? $edu->end_year : 'Present'}}
                               </p>
                            </div>
                       </div>

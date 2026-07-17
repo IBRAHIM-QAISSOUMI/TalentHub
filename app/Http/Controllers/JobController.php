@@ -82,7 +82,7 @@ class JobController extends Controller
      */
     public function show(string $id)
     {
-        $job = JobOffer::findOrFail($id);
+        $job = JobOffer::with('applications')->findOrFail($id);
 
         return view('job.company.show', compact('job'));
     }

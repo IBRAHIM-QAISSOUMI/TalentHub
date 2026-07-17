@@ -17,7 +17,8 @@
                     Dashboard
                 </a>
 
-                <a href="/candidate/profile"
+                <a href="   {{ auth()->user()->hasRole('candidate') ? route('candidate.show') : '' }}
+                            {{ auth()->user()->hasRole('recruiter') ? route('company.show') : '' }} "
                    class="text-gray-700 hover:text-blue-600 font-medium transition">
                     Profile
                 </a>
@@ -31,16 +32,15 @@
                    class="text-gray-700 hover:text-blue-600 font-medium transition">
                     Applications
                 </a>
+
             </div>
 
             <!-- User -->
             <div class="flex items-center gap-4">
 
-                <a  href="{{route('candidate.show', auth()->user()->id)}}"
-                    class="hidden sm:block text-gray-600">
-                    {{ Auth::user()->name }}
-                </a>
 
+                <livewire:navbar-search />
+                
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 

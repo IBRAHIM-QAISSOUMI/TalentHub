@@ -28,17 +28,17 @@
                 <!-- total offers -->
                 <div class="grid grid-cols-3 gap-4">
                      
-                    <div class="bg-violet-50 border px-4 py-3 rounded-lg shadow-sm">
+                    <div class="bg-gary-50 border border-gray-200 px-4 py-3 rounded-lg shadow-sm">
                         <span class="text-xs text-gray-600">Total offers</span>
                         <span class="block text-gray-900 text-xl font-semibold">{{$jobs->count()}}</span>
                     </div>
 
-                    <div class="bg-violet-50 border px-4 py-3 rounded-md shadow-sm">
+                    <div class="bg-green-50 border border-green-200 px-4 py-3 rounded-md shadow-sm">
                         <span class="text-xs text-gray-600">Open</span>
                         <span class="block text-gray-900 text-xl font-semibold">{{$jobs->where('is_closed', 0)->count()}}</span>
                     </div>
 
-                    <div class="bg-violet-50 border px-4 py-3 rounded-md shadow-sm">
+                    <div class="bg-red-50 border border-red-200 px-4 py-3 rounded-md shadow-sm">
                         <span class="text-xs text-gray-600">Closed</span>
                         <span class="block text-gray-900 text-xl font-semibold">{{$jobs->where('is_closed', 1)->count()}}</span>
                     </div>
