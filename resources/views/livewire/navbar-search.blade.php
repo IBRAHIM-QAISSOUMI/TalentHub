@@ -2,7 +2,7 @@
     <input
         type="text"
         wire:model.live.debounce.300ms="search"
-        placeholder="Search candidates, companies, jobs..."
+        placeholder="Search candidates, companies ..."
         class="w-80 rounded-lg border px-4 py-1.5 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:border-transparent"
     >
 
@@ -41,26 +41,9 @@
                 @endforeach
             @endif
 
-            <!-- Jobs -->
-            @if($this->results['jobs']->isNotEmpty())
-                <div class="px-4 py-2 text-xs font-bold text-gray-500 bg-gray-100">
-                    Jobs
-                </div>
-
-                @foreach($this->results['jobs'] as $job)
-                    <a
-                        href="{{ route('jobs.show', $job->id) }}"
-                        class="block px-4 py-2 hover:bg-gray-100"
-                    >
-                        💼 {{ $job->title }}
-                    </a>
-                @endforeach
-            @endif
-
             @if(
                 $this->results['users']->isEmpty() &&
-                $this->results['companies']->isEmpty() &&
-                $this->results['jobs']->isEmpty() 
+                $this->results['companies']->isEmpty()
             )
                 <div class="px-4 py-2 text-gray-500">
                     No results found.

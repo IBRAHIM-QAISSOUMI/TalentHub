@@ -36,7 +36,7 @@
                 <span class="text-xs text-gray-600">Pending</span>
                 <span class="block text-gray-900 text-xl font-semibold">{{$job->applications->where('status', 'pending')->count()}}</span>
             </div>
-            <div class="w-full bg-green-50 border border-amber-200 px-4 py-3 rounded-lg shadow-sm">
+            <div class="w-full bg-green-50 border border-green-200 px-4 py-3 rounded-lg shadow-sm">
                 <span class="text-xs text-gray-600">Accepted</span>
                 <span class="block text-gray-900 text-xl font-semibold">{{$job->applications->where('status', 'accepted')->count()}}</span>
             </div>

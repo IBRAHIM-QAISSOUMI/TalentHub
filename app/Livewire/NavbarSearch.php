@@ -32,13 +32,6 @@ class NavbarSearch extends Component
                 ->limit(5)
                 ->get(),
 
-            'jobs' => JobOffer::where('title', 'like', "%{$this->search}%")
-                ->limit(5)
-                ->get(),
-            
-            // 'candidateBySpecialty' => CandidateProfile::where('title', 'like', "%{$this->search}%")
-            //     ->limit(5)
-            //     ->get()
         ];
     }
 }
