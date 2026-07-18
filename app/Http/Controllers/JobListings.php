@@ -9,8 +9,8 @@ class JobListings extends Controller
 {
     public function index() {
         
-        $jobs = JobOffer::where('is_closed', 0)->latest()->get();
+        $jobsTotal = JobOffer::where('is_closed', 0)->count();
 
-        return view('job.candidate.index', compact('jobs'));
+        return view('job.candidate.index', compact('jobsTotal'));
     }
 }

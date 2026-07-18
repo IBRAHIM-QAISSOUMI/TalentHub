@@ -13,8 +13,11 @@ class ApplicationController extends Controller
         
         if(auth()->user()->hasRole('candidate')) {
 
-             $applications = auth()->user()->applications()->latest()->get();
-             return view('applications.index', compact('applications'));
+             $totalApp = auth()->user()->applications()->count();
+             $totalAppAccepted = auth()->user()->applications()->where('status', 'accepted')->count();
+             $totalAppPending = auth()->user()->applications()->where('status', 'pending')->count();
+             
+             return view('applications.index', compact('totalApp','totalAppPending', 'totalAppAccepted'));
 
         } else {
             

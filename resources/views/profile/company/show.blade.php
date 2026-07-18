@@ -170,7 +170,6 @@
 
                             </div>
                         @endforeach
-
                         <a href="{{route('jobs.index', ['id' => $company->id])}}"
                             class="block mt-5 w-full text-sm text-center px-3 py-2 bg-white border border-gray-400 rounded-lg hover:bg-gray-50 transition">
                             View all {{ $company->jobOffers->count() }} jobs

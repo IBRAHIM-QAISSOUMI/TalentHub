@@ -15,9 +15,7 @@ class JobController extends Controller
     {
         $id =  $request->id;
 
-        $jobs = $id
-            ? Company::findOrFail($id)->jobOffers()->with('applications')->get() 
-            : auth()->user()->company->jobOffers()->with('applications')->get();
+        $jobs = Company::findOrFail($id)->jobOffers()->with('applications')->get() ;
         
         return view('job.company.index', compact('jobs'));
     }

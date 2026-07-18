@@ -8,6 +8,8 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobListings;
 use App\Http\Controllers\ApplicationController;
 
+use App\Livewire\JobsByCompanyFilter;
+
 Route::get('/', [AuthController::class , "showFormRegister"]);
 Route::post('/', [AuthController::class , "register"])->name('register');
 
@@ -56,7 +58,13 @@ Route::get('company/profile/{id?}', [CompanyProfileController::class, 'show'])
 
 
 // Jobs
-Route::resource('jobs', JobController::class)->middleware('auth');
+Route::get('/company/{id}/jobs', JobsByCompanyFilter::class)
+    ->middleware('auth')
+    ->name('jobs.index');
+
+Route::resource('jobs', JobController::class)
+       ->except(['index'])
+       ->middleware('auth');
 
 
 Route::patch('jobs/{job}/toggle', [JobController::class, 'toggle'])->middleware('auth')->name('jobs.toggle');

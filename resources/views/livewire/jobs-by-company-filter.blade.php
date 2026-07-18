@@ -1,8 +1,3 @@
-@extends('layouts.app')
-
-@section('title', 'Company Jobs')
-
-@section('content')
     <div class="py-8">
 
          <!-- main content -->
@@ -12,9 +7,9 @@
                 <div class="flex justify-between items-center">
                     <div>
                         <h1 class="text-xl text-gray-800 font-semibold">Job offers</h1>
-                        <p class="text-sm text-gray-600">{{$jobs[0]->company->name}} Corp</p>
+                        <p class="text-sm text-gray-600">{{ $this->company->name }} Corp</p>
                     </div>
-                    @if($jobs->isNotEmpty() && auth()->user()->id === $jobs[0]->company->user_id)
+                    @if($this->jobs->isNotEmpty() && auth()->user()->id === $this->jobs[0]->company->user_id)
                     <a href="{{route('jobs.create')}}"
                         class="flex items-center gap-1.5 text-sm px-3 py-2 rounded-lg tracking-wide bg-gray-900 text-white hover:bg-gray-800 transition">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-white">
@@ -30,28 +25,31 @@
                      
                     <div class="bg-gary-50 border border-gray-200 px-4 py-3 rounded-lg shadow-sm">
                         <span class="text-xs text-gray-600">Total offers</span>
-                        <span class="block text-gray-900 text-xl font-semibold">{{$jobs->count()}}</span>
+                        <span class="block text-gray-900 text-xl font-semibold">{{$this->jobs->count()}}</span>
                     </div>
 
                     <div class="bg-green-50 border border-green-200 px-4 py-3 rounded-md shadow-sm">
                         <span class="text-xs text-gray-600">Open</span>
-                        <span class="block text-gray-900 text-xl font-semibold">{{$jobs->where('is_closed', 0)->count()}}</span>
+                        <span class="block text-gray-900 text-xl font-semibold">{{$this->jobs->where('is_closed', 0)->count()}}</span>
                     </div>
 
                     <div class="bg-red-50 border border-red-200 px-4 py-3 rounded-md shadow-sm">
                         <span class="text-xs text-gray-600">Closed</span>
-                        <span class="block text-gray-900 text-xl font-semibold">{{$jobs->where('is_closed', 1)->count()}}</span>
+                        <span class="block text-gray-900 text-xl font-semibold">{{$this->jobs->where('is_closed', 1)->count()}}</span>
                     </div>
                 </div>
 
                 <!-- filter -->
                  <div class="flex justify-between gap-3">
                     <input type="text"
+                           wire:model.live="search"
                            class="w-full rounded-lg border border-gray-300 text-gray-600 placeholder:text-gray-600"
                            placeholder="Search by title..."
                     >
 
-                    <select name="status" id="status"
+                    <select name="status"
+                            wire:model.live="status"
+                            id="status"
                             class="rounded-lg border border-gray-300 text-gray-600">
                         <option value="">All statuses</option>
                         <option value="0">open</option>
@@ -62,12 +60,12 @@
 
                 <!-- jobs -->
                  <div class="space-y-3">
-                    @if($jobs->isEmpty())
+                    @if($this->jobs->isEmpty())
                         <div class="text-center py-8 text-gray-500">
                             No job offers available.
                         </div>
                     @else 
-                    @foreach($jobs as $job)
+                    @foreach($this->jobs as $job)
                         <div class="{{$job->is_closed ? 'bg-gray-50 text-gray-500' : 'bg-white'}} flex items-center gap-3 border rounded-lg border-gray-300 shadow-sm px-6 py-4">
                             <!-- image -->
                             <div class="flex items-center h-10 w-10 bg-violet-50 border border-gray-200 rounded-lg ">
@@ -102,7 +100,7 @@
                                         {{$job->work_mode}}
                                     </span>
 
-                                    @if($jobs->isNotEmpty() && auth()->user()->id === $jobs[0]->company->user_id)
+                                    @if($this->jobs->isNotEmpty() && auth()->user()->id === $this->jobs[0]->company->user_id)
                                     <span>-</span>
                                     <span class="flex items-center gap-0.5 capitalize">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
@@ -120,7 +118,7 @@
                             <!-- action buttons -->
                             <div class="flex items-center gap-x-2 ml-auto">
                                <span class="text-xs py-1 px-3 text-gray-800 rounded-lg {{$job->is_closed ? 'bg-gray-50 text-gray-200 border border-gray-300' : 'bg-lime-100'}} ">{{$job->is_closed ? 'Closed' : 'Open'}}</span>
-                                @if($job->is_closed == 0 || auth()->user()->id === $jobs[0]->company->user_id) 
+                                @if($job->is_closed == 0 || auth()->user()->id === $this->jobs[0]->company->user_id) 
                                <a href="{{route('jobs.show', $job->id)}}"
                                   class="border border-gray-300 p-2 rounded-lg hover:bg-gray-50">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
@@ -130,7 +128,7 @@
                                </a>
                                @endif
 
-                               @if($jobs->isNotEmpty() && auth()->user()->id === $jobs[0]->company->user_id)
+                               @if($this->jobs->isNotEmpty() && auth()->user()->id === $this->jobs[0]->company->user_id)
                                <a href="{{route('jobs.edit', $job->id)}}"
                                   class="border border-gray-300 p-2 rounded-lg hover:bg-gray-50">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
@@ -161,4 +159,3 @@
         </div>
         <!-- end main content -->
     </div>
-@endsection
