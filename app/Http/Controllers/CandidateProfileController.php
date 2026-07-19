@@ -120,11 +120,6 @@ class CandidateProfileController extends Controller
             );
 
         }
-
-        return redirect()
-        ->route('candidate.show')
-        ->with('success','Profile completed');
-
     }
 
 

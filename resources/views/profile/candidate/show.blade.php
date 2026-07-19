@@ -12,7 +12,21 @@
 
             <!-- left side -->
              <div class="w-2/3 space-y-4" >
-                
+
+               @if(session('success'))
+                 <div class="mb-4 rounded-lg bg-green-100 border border-green-300 px-4 py-3 text-green-700">
+                     {{ session('success') }}
+                 </div>
+               @endif
+
+
+               @if(session('error'))
+                 <div class="mb-4 rounded-lg bg-red-100 border border-red-300 px-4 py-3 text-red-700">
+                     {{ session('error') }}
+                 </div>
+               @endif
+               
+
                 <!------------ HEADER CARD ------------>
                 <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
                     
@@ -48,8 +62,20 @@
                                     Download CV
                                </a>
                             @endif
+
+                            @if(auth()->user()->id !== $profile->user_id)
                             
-                            @if(auth()->user()->id == $profile->user_id)
+                            <form method="post" action="{{route('firend.request', $profile->user)}}">
+                              @csrf
+                              <button type="submit"
+                                 class="inline-flex items-center text-sm rounded-xl px-4 py-2 gap-1.5 text-white bg-blue-600 hover:bg-blue-700 transition">
+                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                   <path stroke-linecap="round" stroke-linejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+                                 </svg>
+                                 Add Friend 
+                              </button>
+                           </form>
+                           @else
                             <a href="{{route('candidate.edit')}}"
                                class="inline-flex items-center text-sm rounded-xl px-4 py-2 gap-1.5 text-white bg-blue-600 hover:bg-blue-700 transition"
                                >

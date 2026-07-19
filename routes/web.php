@@ -7,6 +7,7 @@ use App\Http\Controllers\CompanyProfileController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobListings;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\FriendshipController;
 
 use App\Livewire\JobsByCompanyFilter;
 
@@ -99,3 +100,11 @@ Route::patch('applications/{application}/accept', [ApplicationController::class,
 
 Route::patch('applications/{application}/reject', [ApplicationController::class, 'reject'])->middleware('auth')->name('application.reject');
 // Route::get('/recruiter/dashboard', [RecruiterDashboardController::class, 'index']);
+
+
+
+// friendship routes
+
+Route::middleware('auth')->group(function () { 
+    Route::post('/friends/request/{user}', [FriendshipController::class, 'send'])->name('firend.request');
+});
