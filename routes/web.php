@@ -106,5 +106,7 @@ Route::patch('applications/{application}/reject', [ApplicationController::class,
 // friendship routes
 
 Route::middleware('auth')->group(function () { 
-    Route::post('/friends/request/{user}', [FriendshipController::class, 'send'])->name('firend.request');
+    Route::post('/friends/request/{user}', [FriendshipController::class, 'send'])->name('friend.send');
+    Route::delete('/friends/request/{user}', [FriendshipController::class, 'reject'])->name('friend.reject');
+    Route::patch('/friends/request/{user}', [FriendshipController::class, 'accept'])->name('friend.accept');
 });

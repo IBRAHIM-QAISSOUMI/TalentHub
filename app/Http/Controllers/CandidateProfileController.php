@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CandidateProfile;
 use App\Models\Skill;
 use App\Models\User;
+use App\Models\Friendship;
 
 class CandidateProfileController extends Controller
 {
@@ -125,23 +126,63 @@ class CandidateProfileController extends Controller
 
 
     // ==========================================================================
-    public function show(Request $request) {
-
+    public function show(Request $request)
+    {
         $id = $request->id;
-
+    
         if ($id) {
-            $profile = User::findOrfail($id)->candidateProfile()
-            ->with(['skills', 'experiences', 'educations'])
-            ->firstOrFail();
-
+            $profile = User::findOrFail($id)
+                ->candidateProfile()
+                ->with(['skills', 'experiences', 'educations'])
+                ->firstOrFail();
         } else {
-            $profile = auth()->user()->candidateProfile()
-            ->with(['skills', 'experiences', 'educations'])
-            ->firstOrFail();
+            $profile = auth()->user()
+                ->candidateProfile()
+                ->with(['skills', 'experiences', 'educations'])
+                ->firstOrFail();
         }
-
+    
         $users = User::with('candidateProfile')->take(10)->get();
-
-        return view('profile.candidate.show', compact('profile', 'users'));
+    
+        $friendship = null;
+        $status = 'add';
+    
+        if ($id && $id != auth()->id()) {
+    
+            $friendship = Friendship::where(function ($query) use ($id) {
+                    $query->where('sender_id', auth()->id())
+                          ->where('receiver_id', $id);
+                })
+                ->orWhere(function ($query) use ($id) {
+                    $query->where('sender_id', $id)
+                          ->where('receiver_id', auth()->id());
+                })
+                ->first();
+    
+            if ($friendship) {
+    
+                if ($friendship->status === 'accepted') {
+                    $status = 'friends';
+    
+                } elseif (
+                    $friendship->status === 'pending' &&
+                    $friendship->sender_id == auth()->id()
+                ) {
+                    $status = 'sent';
+    
+                } elseif (
+                    $friendship->status === 'pending' &&
+                    $friendship->receiver_id == auth()->id()
+                ) {
+                    $status = 'received';
+                }
+            }
+        }
+    
+        return view('profile.candidate.show', compact(
+            'profile',
+            'users',
+            'status'
+        ));
     }
 }

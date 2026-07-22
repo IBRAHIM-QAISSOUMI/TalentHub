@@ -41,4 +41,32 @@ class FriendshipController extends Controller
         return back()->with('success', 'Friend request sent successfully.');
     }
 
+
+
+    public function reject(User $user) {
+
+        $friendship = Friendship::where(function ($q) use ($user) {
+            $q->where('sender_id',  auth()->id())
+              ->where('receiver_id', $user->id);
+        })->orWhere(function ($q) use ($user) {
+            $q->where('receiver_id', auth()->id())
+              ->where('sender_id', $user->id);
+        })->firstOrFail();
+
+        $friendship->delete();
+
+        return back()->with('success', 'Friend request removed successfully.');
+    }
+    
+
+    public function accept(User $user) {
+
+        $friendship = Friendship::where('sender_id', $user->id)
+                ->where('receiver_id', auth()->id());
+
+        $friendship->update(['status' => 'accepted']);
+
+        return back()->with('success', 'Friend request accepted successfully.');
+    }
+
 }
