@@ -55,7 +55,7 @@
                             @if($profile->cv)
                                <a href="{{asset('storage/' . $profile->cv)}}"
                                   target="_blank"
-                                  class="inline-flex  items-center gap-1.5 px-4 py-2 border bordre-gray-200 rounded-xl text-sm  text-gray-600 hover:bg-gray-50 transition">
+                                  class="inline-flex  items-center gap-1.5 px-4 py-2 border bordre-gray-200 rounded-xl text-xs  text-gray-600 hover:bg-gray-50 transition">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 16v-8m0 8l-3-3m3 3l3-3M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/>
                                     </svg>
@@ -70,7 +70,7 @@
                               <form method="post" action="{{route('friend.send', $profile->user)}}">
                                 @csrf
                                 <button type="submit"
-                                   class="inline-flex items-center text-sm rounded-xl px-4 py-2 gap-1.5 text-white bg-blue-600 hover:bg-blue-700 transition">
+                                   class="inline-flex items-center text-xs rounded-lg px-4 py-2 gap-1.5 text-white bg-blue-600 hover:bg-blue-700 transition">
                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
                                      <path stroke-linecap="round" stroke-linejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
                                    </svg>
@@ -83,11 +83,11 @@
                                 @csrf
                                 @method('delete')
                                 <button type="submit"
-                                   class="inline-flex items-center text-sm rounded-xl px-4 py-2 gap-1.5 text-white bg-red-600 hover:bg-red-700 transition">
+                                   class="flex items-center gap-1.5 text-xs font-medium text-gray-500 border border-gray-200  px-4 py-2 rounded-lg hover:bg-gray-50 transition">
                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
                                      <path stroke-linecap="round" stroke-linejoin="round" d="M22 10.5h-6m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM4 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 10.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
                                    </svg>
-                                   Cancel Request
+                                   Cancel
                                 </button>
                               </form>
 
@@ -97,11 +97,11 @@
                                    @csrf
                                    @method('patch')
                                    <button type="submit"
-                                      class="inline-flex items-center text-sm rounded-xl px-4 py-2 gap-1.5 text-white bg-green-600 hover:bg-green-700 transition">
+                                      class="flex items-center gap-1.5 text-xs font-medium bg-gray-900 text-white px-4 py-1.5 rounded-lg hover:bg-gray-700 transition">
                                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
                                       </svg>
-                                      Accept Request
+                                      Accept
                                    </button>
                                  </form>
 
@@ -109,11 +109,11 @@
                                    @csrf
                                    @method('delete')
                                    <button type="submit"
-                                      class="inline-flex items-center text-sm rounded-xl px-4 py-2 gap-1.5 text-white bg-red-600 hover:bg-red-700 transition">
+                                      class="inline-flex items-center gap-1.5 text-xs font-medium text-gray-500 border border-gray-200 px-4 py-1.5 rounded-lg hover:bg-gray-50 transition">
                                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M22 10.5h-6m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM4 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 10.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
                                       </svg>
-                                      Cancel Request
+                                      Decline
                                    </button>
                                  </form>
                               </div>
@@ -132,6 +132,7 @@
                                    </button>
                                  </form>
                               @endif
+                              
                            @else
                             <a href="{{route('candidate.edit')}}"
                                class="inline-flex items-center text-sm rounded-xl px-4 py-2 gap-1.5 text-white bg-blue-600 hover:bg-blue-700 transition"

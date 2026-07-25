@@ -12,9 +12,9 @@
             <!-- Links -->
             <div class="hidden md:flex items-center gap-8">
 
-                <a href="/candidate/dashboard"
+                <a href="{{route('friends.received-requests')}}"
                    class="text-gray-700 hover:text-blue-600 font-medium transition">
-                    Dashboard
+                    Friends
                 </a>
 
                 <a href="   {{ auth()->user()->hasRole('candidate') ? route('candidate.show') : '' }}

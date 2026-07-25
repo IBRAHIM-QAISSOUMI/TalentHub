@@ -109,4 +109,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/friends/request/{user}', [FriendshipController::class, 'send'])->name('friend.send');
     Route::delete('/friends/request/{user}', [FriendshipController::class, 'reject'])->name('friend.reject');
     Route::patch('/friends/request/{user}', [FriendshipController::class, 'accept'])->name('friend.accept');
+    Route::get('/friends/received-requests', [FriendshipController::class, 'showReceivedFriendRequests'])->name('friends.received-requests');
 });

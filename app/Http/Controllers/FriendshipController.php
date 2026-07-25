@@ -69,4 +69,9 @@ class FriendshipController extends Controller
         return back()->with('success', 'Friend request accepted successfully.');
     }
 
+
+    public function showReceivedFriendRequests () {
+        return view('friends.index');
+    }
+
 }
