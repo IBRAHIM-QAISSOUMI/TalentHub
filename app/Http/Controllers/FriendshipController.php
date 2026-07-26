@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Friendship;
 use App\Models\User;
+use App\Notifications\FriendRequestNotification;
+use App\Notifications\FriendAcceptNotification;
 
 class FriendshipController extends Controller
 {
 
     public function send(User $user)
     {
+
+        $receiver = $user;
+        $sender = auth()->user();
+
         // Prevent users from sending a friend request to themselves
         if (auth()->id() == $user->id) {
             return back()->with('error', 'You cannot send a friend request to yourself.');
@@ -36,6 +42,10 @@ class FriendshipController extends Controller
             'receiver_id' => $user->id,
             'status' => 'pending',
         ]);
+
+        $receiver->notify(new FriendRequestNotification($sender));
+
+
     
         // Redirect back with a success message
         return back()->with('success', 'Friend request sent successfully.');
@@ -59,12 +69,17 @@ class FriendshipController extends Controller
     }
     
 
-    public function accept(User $user) {
 
-        $friendship = Friendship::where('sender_id', $user->id)
+    public function accept(User $user) {
+        
+        $receiver = $user;
+    
+        $friendship = Friendship::where('sender_id', $receiver->id)
                 ->where('receiver_id', auth()->id());
 
         $friendship->update(['status' => 'accepted']);
+
+        $receiver->notify(new FriendAcceptNotification(auth()->user()));
 
         return back()->with('success', 'Friend request accepted successfully.');
     }

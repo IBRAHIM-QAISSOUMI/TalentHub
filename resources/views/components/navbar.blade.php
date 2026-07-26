@@ -38,7 +38,7 @@
             <!-- User -->
             <div class="flex items-center gap-4">
 
-
+                <livewire:notifications />
                 <livewire:navbar-search />
                 
                 <form method="POST" action="{{ route('logout') }}">

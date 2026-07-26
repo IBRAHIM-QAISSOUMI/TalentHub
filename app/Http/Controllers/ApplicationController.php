@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\JobOffer;
 use App\Models\Application;
+use App\Models\User;
+use App\Notifications\JobApplicationsNotification;
+use App\Notifications\ApplicationAcceptedNotification;
+use App\Notifications\ApplicationRejectedNotification;
 
 class ApplicationController extends Controller
 {
@@ -47,16 +51,22 @@ class ApplicationController extends Controller
         return view('applications.create', compact('job'));
     }
 
+
     public function store(Request $request) {
 
-        $user_id = auth()->user()->id;
+        $user = auth()->user();
+
         $jobOffer_id = $request->id;
+
+        $jobOffer = JobOffer::findOrfail($jobOffer_id);
+
+        $recruiter = $jobOffer->company->user;
 
         $request->validate([
             'cover_letter' => 'nullable|string|min:15|max:1000',
         ]);
         
-        $found = Application::where('user_id', $user_id)->where('job_offer_id',  $jobOffer_id)->exists();
+        $found = Application::where('user_id', $user->id)->where('job_offer_id',  $jobOffer_id)->exists();
 
         if ($found) {
             return back()->with('error', 'You have already applied for this job.');
@@ -64,10 +74,12 @@ class ApplicationController extends Controller
 
 
         Application::create([
-            'user_id' => $user_id,
+            'user_id' => $user->id,
             'job_offer_id' => $jobOffer_id,
             'cover_letter' => $request->cover_letter
         ]);
+
+        $recruiter->notify(new JobApplicationsNotification($user, $jobOffer));
         
 
         return redirect()->route('applications.index')->with('success', 'Application submitted successfully.');
@@ -95,12 +107,24 @@ class ApplicationController extends Controller
 
         $application->update(['status' => 'accepted']);
 
+        $jobOffer = $application->jobOffer;
+
+        $user = User::findOrFail($application->user_id);
+
+        $user->notify(new ApplicationAcceptedNotification($jobOffer));
+
         return back()->with('success', 'Application accepted successfully.');
     }
 
     public function reject(Application $application) {
 
         $application->update(['status' => 'rejected']);
+
+        $jobOffer = $application->jobOffer;
+
+        $user = User::findOrFail($application->user_id);
+
+        $user->notify(new ApplicationRejectedNotification($jobOffer));
 
         return back()->with('success', 'Application rejected successfully.');
     }
