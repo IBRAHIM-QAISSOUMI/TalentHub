@@ -26,7 +26,7 @@
         x-transition:leave="transition ease-in duration-100"
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-95"
-        class="absolute right-0 z-50 mt-3 w-96 max-w-[90vw] bg-white rounded-2xl shadow-xl ring-1 ring-black/5 overflow-hidden"
+        class="absolute right-0 z-50 mt-3 w-80 md:w-96 max-w-[90vw] bg-white rounded-2xl shadow-xl ring-1 ring-black/5 overflow-hidden"
         style="display: none;"
     >
         {{-- Header --}}

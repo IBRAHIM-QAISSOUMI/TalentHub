@@ -121,6 +121,8 @@ class CandidateProfileController extends Controller
             );
 
         }
+
+        return redirect()->route('candidate.show');
     }
 
 

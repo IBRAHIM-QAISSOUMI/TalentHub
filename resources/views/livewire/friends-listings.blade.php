@@ -37,7 +37,7 @@
                        @csrf
                        @method('delete')
                        <button type="submit"
-                          onclick="return confirm('Do you want to unfirend?')"
+                          onclick="return confirm('Do you want to unfriend?')"
                           class="flex items-center gap-1.5 text-xs text-gray-400 hover:text-red-500 border border-gray-200 hover:border-red-300 px-3 py-1.5 rounded-lg transition">
                           Remove
                        </button>
@@ -54,7 +54,7 @@
                         <p class="text-sm font-medium text-gray-900 truncate">{{ $item->sender->name }}</p>
                         <p class="text-xs text-gray-400 mt-0.5">Sent {{ $item->created_at->diffForHumans() }}</p>
                     </div>
-                    <div class="flex gap-2">
+                    <div class="flex-row md:flex md:gap-2 ">
                         <form method="post" action="{{route('friend.accept', $item->sender)}}">
                           @csrf
                           @method('patch')

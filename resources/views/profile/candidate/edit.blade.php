@@ -26,15 +26,10 @@
                       
                       <div class="pb-0.5">
                           <p class="font-semibold text-gray-900 text-base leading-tight">{{Auth()->user()->name}}</p>
-                          <p class="text-sm text-gray-500">{{Auth()->user()->email}}</p>
+                          <p class="text-xs md:text-sm text-gray-500">{{Auth()->user()->email}}</p>
                       </div>
                   </div>
                   
-                  <!-- edit badge -->
-                  <span class="mb-1 text-xs font-medium bg-blue-600 text-white px-4 py-1.5 rounded-lg">
-                      Edit Profile
-                  </span>
-
             </div>
 
             <!-- Form -->
