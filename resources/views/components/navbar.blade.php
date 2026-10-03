@@ -25,7 +25,9 @@
                     Profile
                 </a>
 
-                <a href="{{ route('Jobs-listings') }}"
+                <a href="{{ auth()->user()->hasRole('candidate')
+                            ? route('Jobs-listings')
+                            : route('jobs.index', ['id' => auth()->id()] )}}"
                    class="text-gray-700 hover:text-blue-600 font-medium transition">
                     Jobs
                 </a>

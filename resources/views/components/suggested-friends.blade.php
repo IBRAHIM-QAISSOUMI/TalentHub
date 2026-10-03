@@ -13,7 +13,7 @@
                            </div>
                            @else  
 
-                              @if($users[$i]->candidateProfile->avatar)
+                              @if($users[$i]->candidateProfile?->avatar)
                                <img src="{{asset('storage/' . $users[$i]->candidateProfile->avatar)}}" 
                                     alt="avatar profile"
                                     class="w-10 h-10 rounded-full border-2 border-white object-cover shadow-sm -ml-2">
@@ -34,7 +34,7 @@
                      <div class="space-y-2">
                         @for($i = 0; $i < min(3, $users->count()); $i++) 
                         <div class="flex items-center gap-2">
-                              @if($users[$i]->candidateProfile->avatar)
+                              @if($users[$i]->candidateProfile?->avatar)
                                <img src="{{asset('storage/' . $users[$i]->candidateProfile->avatar)}}" 
                                     alt="avatar profile"
                                     class="min-w-11 w-11 h-11 shrink- rounded-full border-2 border-white object-cover shadow-sm">
@@ -48,7 +48,7 @@
 
                               <div>
                                  <h3 class="text-sm text-gray-800">{{$users[$i]->name}}</h3>
-                                 <p class="text-xs text-gray-500">{{$users[$i]->candidateProfile->title}}</p>
+                                 <p class="text-xs text-gray-500">{{$users[$i]->candidateProfile?->title}}</p>
                               </div>
 
                               <a href="{{route('candidate.show', $users[$i]->id)}}"

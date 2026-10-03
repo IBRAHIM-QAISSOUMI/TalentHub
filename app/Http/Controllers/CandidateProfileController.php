@@ -144,7 +144,7 @@ class CandidateProfileController extends Controller
                 ->firstOrFail();
         }
     
-        $users = User::with('candidateProfile')->take(10)->get();
+        $users = User::role('candidate')->with('candidateProfile')->take(10)->get();
     
         $friendship = null;
         $status = 'add';
