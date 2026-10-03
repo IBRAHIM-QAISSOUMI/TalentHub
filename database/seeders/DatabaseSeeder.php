@@ -1,49 +1,42 @@
 <?php
 
 namespace Database\Seeders;
-use Database\Seeders\SkillSeeder;
-use Database\Seeders\RolePermissionSeeder;
-use App\Models\CandidateProfile;
-use App\Models\User;
-use App\Models\Skill;
-use App\Models\Experience;
-use App\Models\Education;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
+        /*
+        |--------------------------------------------------------------------------
+        | Skills + Roles
+        |--------------------------------------------------------------------------
+        */
+
         $this->call([
             SkillSeeder::class,
-    ]);
+            RolePermissionSeeder::class,
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Users
+        |--------------------------------------------------------------------------
+        */
 
         $this->call([
-            RolePermissionSeeder::class,
-    ]);
-        User::factory(20)
-            ->has(
-                CandidateProfile::factory()
-                    ->has(Experience::factory(2), 'experiences')
-                    ->has(Education::factory(2), 'educations')
-                ,
-                'candidateProfile'
-            )
-            ->create()
-            ->each(function ($user) {
+            MassiveUserSeeder::class,
+        ]);
 
-                $user->assignRole('candidate');
+        /*
+        |--------------------------------------------------------------------------
+        | Companies + Profiles + Jobs + Applications
+        |--------------------------------------------------------------------------
+        */
 
-                $profile = $user->candidateProfile;
-
-                $skills = Skill::inRandomOrder()
-                    ->take(3)
-                    ->pluck('id');
-
-                $profile->skills()->attach($skills);
-            });
+        $this->call([
+            MassiveCompanySeeder::class,
+        ]);
     }
 }

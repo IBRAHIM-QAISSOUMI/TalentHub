@@ -11,11 +11,11 @@ use App\Http\Controllers\FriendshipController;
 
 use App\Livewire\JobsByCompanyFilter;
 
-Route::get('/', [AuthController::class , "showFormRegister"]);
-Route::post('/', [AuthController::class , "register"])->name('register');
+Route::get('/', [AuthController::class , "showFormLogin"])->name('showFormLogin');
+Route::post('/', [AuthController::class , "login"])->name('login');
 
-Route::get('/login', [AuthController::class , "showFormLogin"]);
-Route::post('/login', [AuthController::class , "login"])->name('login');
+Route::get('/register', [AuthController::class , "showFormRegister"])->name('showFormRegister');
+Route::post('/register', [AuthController::class , "register"])->name('register');
 
 Route::post('/home', [AuthController::class , 'logout'])->name('logout');
 

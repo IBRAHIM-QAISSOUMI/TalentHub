@@ -85,9 +85,9 @@
                             <h3 class="text-sm text-gray-800 font-medium capitalize truncate">{{$job->title}}</h3>
                             <span class="flex flex-wrap items-center gap-x-0.5 text-gray-500 text-xs mt-0.5 capitalize">
                                 <span class="truncate max-w-[100px] sm:max-w-none">{{$job->location}}</span>
-                                <span class="hidden xs:inline">-</span>
+                                <span class="inline">-</span>
                                 <span class="truncate">{{$job->contract_type}}</span>
-                                <span class="hidden xs:inline">-</span>
+                                <span class="inline">-</span>
                                 <span class="truncate">{{$job->work_mode}}</span>
                             </span>
                         </div>
@@ -108,6 +108,10 @@
                 <!-- middle card - GRID 2 COLUMNS -->
                 <div class="grid grid-cols-1 md:grid-cols-2 bg-white divide-y md:divide-y-0 md:divide-x divide-gray-100">
                     @foreach($job->applications as $index => $application)
+                    @if ($index == 6)
+                         @break ;
+                    @endif
+
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center px-3 sm:px-4 py-3 sm:py-4 gap-2 sm:gap-0 
                         {{ $index % 2 == 0 ? 'bg-white' : 'bg-gray-50/50' }}
                         {{ !$loop->last && $index % 2 == 0 ? 'border-b border-gray-100 md:border-b-0' : '' }}

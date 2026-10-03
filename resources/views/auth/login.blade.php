@@ -129,7 +129,7 @@
 
                     Don't have an account?
 
-                    <a href="/"
+                    <a href="{{route('showFormRegister')}}"
                        class="text-blue-500 font-medium hover:underline">
 
                         Create Account
